@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayasan Assofa - Agen Perubahan Pemuda di Wilayah Bogor</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co.com/XrGW5nDg/649232504-18047748113724544-8548764302462923345-n.jpg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            teal: '#0d9488', // Hijau Toska
+                            tealdark: '#0f766e',
+                            blue: '#1e293b', // Biru Gelap (Slate 800)
+                            bluedark: '#0f172a',
+                            light: '#f8fafc', // Putih/Abu terang
+                        }
+                    },
+                    fontFamily: {
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        sans: ['Open Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles for Hierarchy Tree */
+        .org-tree ul {
+            padding-top: 20px; position: relative;
+            transition: all 0.5s;
+            display: flex;
+            justify-content: center;
+        }
+        .org-tree li {
+            float: left; text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+            transition: all 0.5s;
+        }
+        /* Connecting lines */
+        .org-tree li::before, .org-tree li::after{
+            content: '';
+            position: absolute; top: 0; right: 50%;
+            border-top: 2px solid #0d9488;
+            width: 50%; height: 20px;
+        }
+        .org-tree li::after{
+            right: auto; left: 50%;
+            border-left: 2px solid #0d9488;
+        }
+        .org-tree li:only-child::after, .org-tree li:only-child::before {
+            display: none;
+        }
+        .org-tree li:only-child{ padding-top: 0;}
+        .org-tree li:first-child::before, .org-tree li:last-child::after{
+            border: 0 none;
+        }
+        .org-tree li:last-child::before{
+            border-right: 2px solid #0d9488;
+            border-radius: 0 5px 0 0;
+        }
+        .org-tree li:first-child::after{
+            border-radius: 5px 0 0 0;
+        }
+        .org-tree ul ul::before{
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            border-left: 2px solid #0d9488;
+            width: 0; height: 20px;
+        }
+        @media (max-width: 768px) {
+            .org-tree ul { flex-direction: column; align-items: center; padding-top: 0; }
+            .org-tree li { padding: 10px 0; width: 100%; }
+            .org-tree li::before, .org-tree li::after, .org-tree ul ul::before { display: none; }
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-blue bg-brand-light antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm shadow-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center gap-3">
+                        <img class="h-12 w-12 rounded-full object-cover border-2 border-brand-teal" src="https://i.ibb.co.com/XrGW5nDg/649232504-18047748113724544-8548764302462923345-n.jpg" alt="Logo Yayasan Assofa">
+                        <span class="font-montserrat font-bold text-xl text-brand-blue tracking-tight">Yayasan Assofa</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#beranda" class="text-gray-600 hover:text-brand-teal font-semibold transition">Beranda</a>
+                    <a href="#tentang" class="text-gray-600 hover:text-brand-teal font-semibold transition">Tentang Kami</a>
+                    <a href="#program" class="text-gray-600 hover:text-brand-teal font-semibold transition">Program</a>
+                    <a href="#galeri" class="text-gray-600 hover:text-brand-teal font-semibold transition">Galeri</a>
+                    <a href="#kontak" class="bg-brand-teal text-white px-5 py-2 rounded-full font-semibold hover:bg-brand-tealdark transition shadow-lg shadow-brand-teal/30">Hubungi Kami</a>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-brand-teal focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#beranda" class="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-brand-teal hover:bg-gray-50 rounded-md">Beranda</a>
+                <a href="#tentang" class="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-brand-teal hover:bg-gray-50 rounded-md">Tentang Kami</a>
+                <a href="#program" class="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-brand-teal hover:bg-gray-50 rounded-md">Program</a>
+                <a href="#galeri" class="block px-3 py-2 text-base font-semibold text-gray-700 hover:text-brand-teal hover:bg-gray-50 rounded-md">Galeri</a>
+                <a href="#kontak" class="block px-3 py-2 text-base font-semibold text-brand-teal hover:bg-gray-50 rounded-md">Hubungi Kami</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="relative h-screen flex items-center justify-center">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://i.ibb.co.com/FbzYsQPZ/Pembukaan-Pencak-Silat-Nahdlatul-Ulama-Pagarnusa-di-Mts-Al-ikhwan-Singabangsa-Tenjo-Kab-Bogor-J.jpg" alt="Kegiatan Yayasan Assofa" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-brand-bluedark/80 mix-blend-multiply"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-16">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-teal/20 text-brand-teal border border-brand-teal/30 backdrop-blur-sm text-sm font-semibold tracking-wider mb-4 uppercase">Santri Berdaya</span>
+            <h1 class="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 drop-shadow-lg">
+                Yayasan Assofa: <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-200">Agen Perubahan Pemuda</span> <br>
+                di Wilayah Bogor
+            </h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
+                "Membangun sumber daya manusia yang mampu membawa perubahan di setiap wilayah, serta mencapai pengetahuan yang berkembang dan dinikmati oleh semua kalangan."
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#program" class="bg-brand-teal text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-brand-tealdark transition shadow-lg shadow-brand-teal/40">Jelajahi Program</a>
+                <a href="#tentang" class="bg-white/10 backdrop-blur-sm text-white border border-white/30 px-8 py-3 rounded-full font-bold text-lg hover:bg-white/20 transition">Pelajari Lebih Lanjut</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Snippets (Overlapping Hero) -->
+    <section class="relative z-20 -mt-24 px-4 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Snippet 1 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border-b-4 border-brand-teal transform transition hover:-translate-y-2 duration-300">
+                <div class="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mb-6">
+                    <i class="fas fa-laptop-code text-2xl text-brand-teal"></i>
+                </div>
+                <h3 class="font-montserrat font-bold text-xl mb-3 text-brand-blue">Literasi Digital & Keamanan Online</h3>
+                <p class="text-gray-600 text-sm mb-4">Program Inisiatif YAF 2026 untuk meningkatkan pemahaman teknologi cerdas.</p>
+            </div>
+            <!-- Snippet 2 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border-b-4 border-brand-blue transform transition hover:-translate-y-2 duration-300">
+                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                    <i class="fas fa-book-reader text-2xl text-brand-blue"></i>
+                </div>
+                <h3 class="font-montserrat font-bold text-xl mb-3 text-brand-blue">Literasi Berdaya Santri</h3>
+                <p class="text-gray-600 text-sm mb-4">Mendorong kemampuan menulis karya ilmiah dan literasi komprehensif.</p>
+            </div>
+            <!-- Snippet 3 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border-b-4 border-brand-teal transform transition hover:-translate-y-2 duration-300">
+                <div class="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mb-6">
+                    <i class="fas fa-mosque text-2xl text-brand-teal"></i>
+                </div>
+                <h3 class="font-montserrat font-bold text-xl mb-3 text-brand-blue">Pusat Belajar Mengaji</h3>
+                <p class="text-gray-600 text-sm mb-4">Fasilitas belajar agama khusus untuk kaum marjinal dan putus sekolah.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami Section -->
+    <section id="tentang" class="py-20 bg-brand-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-montserrat text-3xl md:text-4xl font-bold text-brand-blue mb-4">Profil Yayasan</h2>
+                <div class="w-24 h-1 bg-brand-teal mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+                <!-- Sejarah & Visi Misi -->
+                <div class="space-y-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center text-brand-teal">
+                                <i class="fas fa-history text-xl"></i>
+                            </div>
+                            <h3 class="font-montserrat text-2xl font-bold">Sejarah Singkat</h3>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed">
+                            Yayasan Assofa didirikan pada <strong class="text-brand-teal">03 Maret 2022</strong> sebagai inisiatif murni dari kelompok pemuda yang peduli terhadap kondisi pendidikan dan sosial di wilayah Bogor. Kami hadir untuk menjembatani kesenjangan dan memberdayakan masyarakat.
+                        </p>
+                    </div>
+
+                    <div class="bg-brand-blue text-white p-8 rounded-2xl shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full -mr-10 -mt-10"></div>
+                        <h3 class="font-montserrat text-2xl font-bold mb-4 text-brand-teal">Visi & Misi</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg mb-2"><i class="fas fa-eye mr-2"></i>Visi</h4>
+                                <p class="text-gray-300 text-sm leading-relaxed">Menjadi lembaga penggerak utama dalam membangun sumber daya manusia yang unggul, berdaya saing, dan berakhlak mulia di wilayah Bogor dan sekitarnya, serta mencapai pengetahuan yang berkembang dan dinikmati oleh semua kalangan.</p>
+                            </div>
+                            <div class="w-full h-px bg-white/20"></div>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2"><i class="fas fa-bullseye mr-2"></i>Misi</h4>
+                                <ul class="text-gray-300 text-sm leading-relaxed list-disc list-inside space-y-1">
+                                    <li>Menyelenggarakan program literasi dan pendidikan inklusif.</li>
+                                    <li>Meningkatkan kesadaran literasi digital dan keamanan siber.</li>
+                                    <li>Menyediakan pusat belajar agama bagi kaum marjinal.</li>
+                                    <li>Membangun kolaborasi pemuda sebagai agen perubahan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legalitas / Sertifikat -->
+                <div class="relative">
+                    <div class="absolute inset-0 bg-brand-teal rounded-2xl transform translate-x-4 translate-y-4 opacity-20"></div>
+                    <img src="https://i.ibb.co.com/tP44Bn0c/Screenshot-2026-03-12-11-38-20.png" alt="Sertifikat Yayasan Assofa" class="relative rounded-2xl shadow-2xl w-full object-cover border-4 border-white z-10">
+                    <div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg z-20 text-center">
+                        <p class="font-montserrat font-bold text-brand-blue">Legalitas Resmi Terdaftar</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Struktur Kepengurusan -->
+            <div class="mt-24">
+                <div class="text-center mb-12">
+                    <h3 class="font-montserrat text-3xl font-bold text-brand-blue mb-2">Struktur Kepengurusan</h3>
+                    <p class="text-gray-500">Transparansi Organisasi Yayasan Assofa</p>
+                </div>
+
+                <div class="org-tree overflow-x-auto pb-8">
+                    <ul>
+                        <li>
+                            <!-- Direktur -->
+                            <div class="inline-block">
+                                <div class="bg-brand-blue text-white px-8 py-4 rounded-xl shadow-lg border-b-4 border-brand-teal min-w-[200px]">
+                                    <p class="text-xs text-brand-teal font-bold uppercase tracking-wider mb-1">Direktur</p>
+                                    <h4 class="font-montserrat font-bold text-lg">Iwan</h4>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <!-- Manager -->
+                                    <div class="inline-block mt-4">
+                                        <div class="bg-brand-teal text-white px-8 py-4 rounded-xl shadow-md min-w-[180px]">
+                                            <p class="text-xs text-teal-200 font-bold uppercase tracking-wider mb-1">Manager</p>
+                                            <h4 class="font-montserrat font-bold text-lg">Faiz</h4>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="inline-block mt-4 md:mx-2">
+                                                <div class="bg-white border border-gray-200 px-6 py-3 rounded-lg shadow-sm border-t-4 border-t-brand-teal min-w-[140px]">
+                                                    <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Ketua</p>
+                                                    <h4 class="font-semibold text-brand-blue">Kusnadi</h4>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inline-block mt-4 md:mx-2">
+                                                <div class="bg-white border border-gray-200 px-6 py-3 rounded-lg shadow-sm border-t-4 border-t-brand-teal min-w-[140px]">
+                                                    <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Sekretaris</p>
+                                                    <h4 class="font-semibold text-brand-blue">Turine</h4>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inline-block mt-4 md:mx-2">
+                                                <div class="bg-white border border-gray-200 px-6 py-3 rounded-lg shadow-sm border-t-4 border-t-brand-teal min-w-[140px]">
+                                                    <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Bendahara</p>
+                                                    <h4 class="font-semibold text-brand-blue">Tuti Munisah</h4>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="inline-block mt-4 md:mx-2">
+                                                <div class="bg-white border border-gray-200 px-6 py-3 rounded-lg shadow-sm border-t-4 border-t-brand-teal min-w-[140px]">
+                                                    <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Humas</p>
+                                                    <h4 class="font-semibold text-brand-blue">Adit</h4>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- Anggota (Separate row for clean layout) -->
+                    <div class="flex justify-center mt-8">
+                        <div class="bg-gray-100 border border-gray-200 px-8 py-4 rounded-xl text-center min-w-[300px]">
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Anggota Tim</p>
+                            <h4 class="font-montserrat font-bold text-brand-blue text-lg">Yopis & Hasbi</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Kegiatan Section -->
+    <section id="program" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-montserrat text-3xl md:text-4xl font-bold text-brand-blue mb-4">Program & Kegiatan</h2>
+                <div class="w-24 h-1 bg-brand-teal mx-auto rounded-full"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Fokus kami pada pendidikan inklusif dan adaptasi teknologi untuk menciptakan generasi muda yang tangguh.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Program 1 -->
+                <div class="group rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-brand-teal/10 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-teal to-brand-blue opacity-90"></div>
+                        <i class="fas fa-graduation-cap text-6xl text-white/50 z-10 group-hover:scale-110 transition duration-500"></i>
+                        <h3 class="absolute bottom-4 left-6 z-10 font-montserrat font-bold text-2xl text-white">Literasi & Pendidikan</h3>
+                    </div>
+                    <div class="p-8 bg-white flex-1">
+                        <div class="mb-6">
+                            <h4 class="font-bold text-lg text-brand-blue flex items-center gap-2 mb-2">
+                                <i class="fas fa-pen-nib text-brand-teal"></i> Literasi Santri Berdaya 2025
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">Program intensif yang difokuskan pada pengembangan kemampuan menulis karya ilmiah bagi para santri, membekali mereka dengan skill riset dan artikulasi gagasan yang sistematis.</p>
+                        </div>
+                        <div class="w-full h-px bg-gray-100 mb-6"></div>
+                        <div>
+                            <h4 class="font-bold text-lg text-brand-blue flex items-center gap-2 mb-2">
+                                <i class="fas fa-quran text-brand-teal"></i> Pusat Belajar Mengaji
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed">Penyediaan fasilitas dan tenaga pengajar untuk kaum marjinal agar mendapatkan hak pendidikan agama yang layak, ramah, dan berkelanjutan.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="group rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                    <div class="h-48 bg-brand-blue/10 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-blue to-slate-700 opacity-90"></div>
+                        <i class="fas fa-shield-alt text-6xl text-white/50 z-10 group-hover:scale-110 transition duration-500"></i>
+                        <h3 class="absolute bottom-4 left-6 z-10 font-montserrat font-bold text-2xl text-white">Inisiatif YAF 2026</h3>
+                    </div>
+                    <div class="p-8 bg-white flex-1">
+                        <h4 class="font-bold text-xl text-brand-teal mb-4">Literasi Digital & Keamanan Online</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">Program unggulan menyongsong 2026 untuk mengedukasi masyarakat rentan tentang bahaya di dunia maya dan cara pemanfaatan teknologi secara positif.</p>
+                        
+                        <div class="bg-gray-50 rounded-xl p-5 mb-4 border-l-4 border-brand-blue">
+                            <h5 class="font-bold text-brand-blue mb-1 text-sm"><i class="fas fa-users mr-2"></i>Target Peserta:</h5>
+                            <p class="text-gray-600 text-sm">Anak petani, siswa PKBM, anak buruh, dan anak putus sekolah.</p>
+                        </div>
+                        
+                        <div class="bg-teal-50 rounded-xl p-5 border-l-4 border-brand-teal">
+                            <h5 class="font-bold text-brand-teal mb-1 text-sm"><i class="fas fa-bullseye mr-2"></i>Tujuan Utama:</h5>
+                            <p class="text-gray-600 text-sm">Meningkatkan pemahaman keamanan siber (cybersecurity awareness) dan mendorong penggunaan teknologi secara cerdas dan produktif.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri Section -->
+    <section id="galeri" class="py-20 bg-brand-bluedark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-montserrat text-3xl md:text-4xl font-bold text-white mb-4">Galeri Kegiatan</h2>
+                <div class="w-24 h-1 bg-brand-teal mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Photo 1 -->
+                <div class="overflow-hidden rounded-xl aspect-video cursor-pointer shadow-lg">
+                    <img src="https://i.ibb.co.com/FbzYsQPZ/Pembukaan-Pencak-Silat-Nahdlatul-Ulama-Pagarnusa-di-Mts-Al-ikhwan-Singabangsa-Tenjo-Kab-Bogor-J.jpg" alt="Kegiatan 1" class="lightbox-trigger w-full h-full object-cover transform hover:scale-110 transition duration-700">
+                </div>
+                <!-- Photo 2 -->
+                <div class="overflow-hidden rounded-xl aspect-video cursor-pointer shadow-lg">
+                    <img src="https://i.ibb.co.com/WZjD8X2/Pembukaan-Pencak-Silat-Nahdlatul-Ulama-Pagarnusa-di-Mts-Al-ikhwan-Singabangsa-Tenjo-Kab-Bogor-J-1.jpg" alt="Kegiatan 2" class="lightbox-trigger w-full h-full object-cover transform hover:scale-110 transition duration-700">
+                </div>
+                <!-- Photo 3 -->
+                <div class="overflow-hidden rounded-xl aspect-video cursor-pointer shadow-lg">
+                    <img src="https://i.ibb.co.com/Ndfbz6YX/Pembukaan-Pencak-Silat-Nahdlatul-Ulama-Pagarnusa-di-Mts-Al-ikhwan-Singabangsa-Tenjo-Kab-Bogor-J-2.jpg" alt="Kegiatan 3" class="lightbox-trigger w-full h-full object-cover transform hover:scale-110 transition duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden bg-black/95 flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white hover:text-brand-teal focus:outline-none transition z-50 p-2">
+            <i class="fas fa-times text-4xl drop-shadow-lg"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="Full Screen Image" class="max-w-[95vw] max-h-[90vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300">
+    </div>
+
+    <!-- Footer & Kontak Section -->
+    <footer id="kontak" class="bg-brand-blue text-gray-300 pt-20 pb-10 border-t-4 border-brand-teal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+                <!-- Branding -->
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img class="h-12 w-12 rounded-full object-cover border-2 border-brand-teal bg-white" src="https://i.ibb.co.com/XrGW5nDg/649232504-18047748113724544-8548764302462923345-n.jpg" alt="Logo Yayasan Assofa">
+                        <span class="font-montserrat font-bold text-2xl text-white tracking-tight">Yayasan Assofa</span>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-6">Agen perubahan pemuda di wilayah Bogor yang berdedikasi untuk membangun sumber daya manusia melalui literasi, pendidikan, dan pemberdayaan sosial.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://instagram.com/yayasanassofa" target="_blank" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-red-500 hover:to-purple-500 hover:text-white transition duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-brand-teal hover:text-white transition duration-300">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tautan Cepat -->
+                <div class="lg:ml-auto">
+                    <h4 class="font-montserrat font-bold text-white text-lg mb-6">Tautan Cepat</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#beranda" class="hover:text-brand-teal transition"><i class="fas fa-chevron-right text-xs mr-2 text-brand-teal"></i> Beranda</a></li>
+                        <li><a href="#tentang" class="hover:text-brand-teal transition"><i class="fas fa-chevron-right text-xs mr-2 text-brand-teal"></i> Profil Yayasan</a></li>
+                        <li><a href="#program" class="hover:text-brand-teal transition"><i class="fas fa-chevron-right text-xs mr-2 text-brand-teal"></i> Program Kami</a></li>
+                        <li><a href="#galeri" class="hover:text-brand-teal transition"><i class="fas fa-chevron-right text-xs mr-2 text-brand-teal"></i> Galeri Kegiatan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Informasi Kontak -->
+                <div>
+                    <h4 class="font-montserrat font-bold text-white text-lg mb-6">Hubungi Kami</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1.5 mr-3 text-brand-teal text-lg w-5 text-center"></i>
+                            <span class="text-sm leading-relaxed">Grand Harmoni V Tenjo blok E2 no 11,<br>Tenjo, Kab Bogor.</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mt-0.5 mr-3 text-brand-teal text-lg w-5 text-center"></i>
+                            <span class="text-sm">0831-5027-3143</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mt-0.5 mr-3 text-brand-teal text-lg w-5 text-center"></i>
+                            <span class="text-sm break-all">yayasanassofapusatpendidikan@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-slate-400">&copy; 2024 Yayasan Assofa. All rights reserved.</p>
+                <p class="text-sm text-slate-400 mt-2 md:mt-0">Santri Berdaya, Bangsa Berjaya.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Lightbox Functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const triggers = document.querySelectorAll('.lightbox-trigger');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.remove('hidden');
+            // Small delay to allow display block to apply before transition
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0');
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightboxImg.src = ''; // Clear source
+                document.body.style.overflow = ''; // Restore scrolling
+            }, 300); // Match transition duration
+        }
+
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                openLightbox(this.src);
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+
+        // Close on background click
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
